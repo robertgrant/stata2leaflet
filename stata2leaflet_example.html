@@ -1,0 +1,26 @@
+<head>
+	<link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+</head>
+
+<body>
+	<h1 style="font-family:arial;">Here's my new map</h1>
+	<div id="map" style="height:480px; width:600px;"><script type="text/javascript">
+		var MyIcon = L.Icon.extend({options: {iconSize:[25,41],iconAnchor:[12,40],popupAnchor:[0,-31],shadowUrl:"http://www.robertgrantstats.co.uk/software/marker-shadow.png"}});
+		var greenIcon = new MyIcon({iconUrl:"http://www.robertgrantstats.co.uk/software/marker-icon-green.png"});
+		var greyIcon = new MyIcon({iconUrl:"http://www.robertgrantstats.co.uk/software/marker-icon-grey.png"});
+		var orangeIcon = new MyIcon({iconUrl:"http://www.robertgrantstats.co.uk/software/marker-icon-orange.png"});
+		var purpleIcon = new MyIcon({iconUrl:"http://www.robertgrantstats.co.uk/software/marker-icon-purple.png"});
+		var redIcon = new MyIcon({iconUrl:"http://www.robertgrantstats.co.uk/software/marker-icon-red.png"});
+		var yellowIcon = new MyIcon({iconUrl:"http://www.robertgrantstats.co.uk/software/marker-icon-yellow.png"});
+		var blueIcon = new MyIcon({iconUrl:"http://www.robertgrantstats.co.uk/software/marker-icon.png"});
+		var map = L.map("map").setView([51.48689804077149,-1.461503028869629]).fitBounds([[50.55076599121094,-1.886141896247864],[52.42593383789063,-1.086491703987121]]);;
+		L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors" }).addTo(map);
+			L.marker([51.48394,-1.2864],{icon:redIcon}).addTo(map).bindPopup("Point 1");
+			L.marker([51.57000000000001,-1.68623],{icon:purpleIcon}).addTo(map).bindPopup("Point 2");
+			L.marker([51.95714,-1.47699],{icon:greenIcon}).addTo(map).bindPopup("Point 3");
+			L.marker([51.01956000000001,-1.3697],{icon:redIcon}).addTo(map).bindPopup("Point 4");
+			L.marker([51.40385000000001,-1.4882],{icon:redIcon}).addTo(map).bindPopup("Point 5");
+	</script></div>
+	<p style="font-family:arial;">Here's some more details</p>
+</body>
