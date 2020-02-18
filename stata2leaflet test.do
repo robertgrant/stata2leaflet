@@ -1,4 +1,4 @@
-cd "C:\Users\ku52502\Dropbox\Visualization\interactive\leaflet"
+
 clear
 set obs 5
 gen mlat=rnormal(51.5,0.2)
@@ -9,6 +9,9 @@ drop nn
 gen mcol="red"
 replace mcol="purple" in 2
 replace mcol="green" in 3
-stata2leaflet mlat mlong mlab, mcolorvar(mcol) replace nocomments ///
-	title("Here's my new map") ///
-	caption("Here's some more details")
+local tkn="paste_your_mapbox_token_here"
+
+stata2leaflet mlat mlong mlab, token("`tkn'") ///
+                               mcolorvar(mcol) replace nocomments ///
+	                           title("Here's my new map") ///
+	                           caption("Here's some more details")

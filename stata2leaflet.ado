@@ -1,22 +1,30 @@
-/* stata2leaflet v0.1 - regard this as an alpha test version!
+/* stata2leaflet v0.1.1 - regard this as an alpha test version!
    To do in version 0.2:
    Custom icons (maybe too much bother)
    Choropleth
    Legend
    layer control
    allow southwest & northeast corners instead of mapzoom
-      
-   http://www.robertgrantstats.co.uk/software
-   published 5 June 2014
+
+   Robert Grant - robert@bayescamp.com - @robertstats
+   published 18 February 2020
    */
 
 capture program drop stata2leaflet
 program stata2leaflet
 version 11
-syntax varlist(min=3 max=3) [, MAPHeight(integer 480) MAPWidth(integer 600) ///
-							   MAPLAT(real 0.0) MAPLONG(real 0.0) MAPZOOM(integer 0) ///
-							   POPUP(varname numeric) MCOLOR(string) MCOLORVAR(varname string) ///
-							   FILEname(string) REPLACE NOCOMments TITLE(string) CAPTION(string)] 
+syntax varlist(min=3 max=3) , TOKEN(string) ///
+                              [MAPHeight(integer 480) MAPWidth(integer 600) ///
+							                 MAPLAT(real 0.0) MAPLONG(real 0.0) ///
+                               MAPZOOM(integer 0) ///
+							                 POPUP(varname numeric) ///
+                               MCOLOR(string) ///
+                               MCOLORVAR(varname string) ///
+							                 FILEname(string) ///
+                               REPLACE ///
+                               NOCOMments ///
+                               TITLE(string) ///
+                               CAPTION(string)]
 tokenize `varlist'
 // default map centre
 if `maplat'==0 {
@@ -70,10 +78,10 @@ file open myfile using `filename', write text `replace'
 		file write myfile _tab `"<!-- The links in the header bring in the leaflet styles from CSS and the JavaScript program behind it all. -->"' _n
 	}
 // add links to CSS and JS files
-	file write myfile _tab `"<link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />"' _n
-	file write myfile _tab `"<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>"' _n
+	file write myfile _tab `"<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>"' _n
+	file write myfile _tab `"<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>"' _n
 	file write myfile `"</head>"' _n _n
-	
+
 	file write myfile `"<body>"' _n
 	if "`nocomments'"!="nocomments" & "`title'"!="" {
 		file write myfile _tab `"<!-- Insert the title -->"' _n
@@ -133,13 +141,13 @@ file open myfile using `filename', write text `replace'
 			replace `icons'=",{icon:"+"grey"+"Icon}"
 		}
 	}
-	// draw the map	
+	// draw the map
 	file write myfile _tab(2) `"var map = L.map("map")`mapview';"' _n
 	if "`nocomments'"!="nocomments" {
 		file write myfile _tab(2) `"<!-- The images are obtained online using L.tileLayer... -->"' _n
 	}
 	// I have avoided single quotes in the attribution and just hard-typed it
-	file write myfile _tab(2) `"L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors" }).addTo(map);"' _n
+	file write myfile _tab(2) `"L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", { attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="https://www.mapbox.com/">Mapbox</a>', maxZoom: 18, id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, accessToken: "`token'" }).addTo(map);"' _n
 	if "`nocomments'"!="nocomments" {
 		file write myfile _tab(2) `"<!-- ...and then markers are added using L.marker, with pop-up captions using .bindPopup -->"' _n
 	}

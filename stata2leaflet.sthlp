@@ -11,13 +11,14 @@
 {title:Syntax}
 
 {p 8 12 2}
-{cmd:stata2leaflet} {it:latitudevar} {it:longitudevar} {it:labelvar} [{cmd:,} {it:{help stata2leaflet##options:options}}]
+{cmd:stata2leaflet} {it:latitudevar} {it:longitudevar} {it:labelvar} {cmd:, token(string)} [{it:{help stata2leaflet##options:options}}]
 
 
 {synoptset 24 tabbed}{...}
 {synopthdr}
 {synoptline}
 {syntab :Main}
+{synopt :{opt token(string)}}You must supply a Mapbox API token; this is a long string identifying you to the Mapbox.com server, so you can download map tiles. To get it, you should sign up for a (free) account at mapbox.com, click on Tokens, then Create A Token, and copy the text that comes up.{p_end}
 {synopt :{opt maph:eight(#)}}map height in pixels, default 480{p_end}
 {synopt :{opt mapw:idth(#)}}map width in pixels, default 600{p_end}
 {synopt :{opt maph:eight(#)}}map height in pixels, default 480{p_end}
@@ -49,13 +50,13 @@
 The resulting HTML file contains the instructions to display the map (including the data) with a marker and pop-up label for each observation in the Stata data file.
 
 {pstd}
-Internet access is necessary to obtain the background map images, so URLs are included 
-to obtain the leaflet JS and CSS files, as well as picture files for the colored 
+Internet access is necessary to obtain the background map images, so URLs are included
+to obtain the leaflet JS and CSS files, as well as picture files for the colored
 markers, which are stored on the author's website for your convenience.
 
 {pstd}
-These can also be saved locally if you are comfortable editing the HTML to point to them. 
-See leafletjs.com and github.com/shramov/leaflet-plugins for more details on the 
+These can also be saved locally if you are comfortable editing the HTML to point to them.
+See leafletjs.com and github.com/shramov/leaflet-plugins for more details on the
 leaflet JavaScript library.
 
 
@@ -67,10 +68,10 @@ leaflet JavaScript library.
 {opt mapzoom} Requires an integer, usually between 3 and 11. The default is to fit all data plus half of the range above and below the extremes in latitude and longitude.
 
 {p 4 8}
-{opt mcolorvar(varname)} String variable defining different marker colors. At present, it can contain values "blue", "red", "yellow", "green" "grey", "gray", "orange" or "purple". Any other values will result in a grey marker. 
+{opt mcolorvar(varname)} String variable defining different marker colors. At present, it can contain values "blue", "red", "yellow", "green" "grey", "gray", "orange" or "purple". Any other values will result in a grey marker.
 
 {p 8 8}
-If neither {opt mcolor()} nor {opt mcolorvar()} are specified, the default marker 
+If neither {opt mcolor()} nor {opt mcolorvar()} are specified, the default marker
 color is blue. If both {opt mcolor()} and {opt mcolorvar()} are specified, {opt mcolorvar()} takes precedence. {p_end}
 
 
@@ -90,9 +91,9 @@ A string {it:labelvar} must be provided, even if it is blank throughout. To incl
 <br>
 
 {p 4 4}
-to {it:labelvar} at the point where you want the break. Those familiar with 
-HTML will realise this tag is written verbatim to the output file and then interpreted 
-in the browser, and so you can include other formatting to the popup text, or the 
+to {it:labelvar} at the point where you want the break. Those familiar with
+HTML will realise this tag is written verbatim to the output file and then interpreted
+in the browser, and so you can include other formatting to the popup text, or the
 title or caption, this way if you know what tags to use.
 
 
@@ -121,4 +122,3 @@ title or caption, this way if you know what tags to use.
 
 {pstd}
 {cmd:stata2leaflet} does not save anything.
-
